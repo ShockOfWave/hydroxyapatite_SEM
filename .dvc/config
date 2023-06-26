@@ -1,5 +1,6 @@
 [core]
     remote = s3_yandex
+    autostage = true
 ['remote "s3_yandex"']
     url = s3://hydroxyapatite-sem
     endpointurl = https://storage.yandexcloud.net/
