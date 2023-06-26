@@ -90,4 +90,10 @@ target/
 
 # Models
 models/
-/data
+
+# Logs
+lightning_logs/
+
+# env
+
+venv/
