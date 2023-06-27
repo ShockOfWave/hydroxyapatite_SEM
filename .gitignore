@@ -91,5 +91,9 @@ target/
 # Models
 models/
 
+# Logs
+lightning_logs/
+
 # env
+
 venv/
