@@ -33,8 +33,8 @@ class CustomDataset(Dataset):
         ])
         
         self.images, self.images_edges, self.table, self.y_data = self.prepare_data()
-        self.images = torch.tensor(self.images, dtype=torch.float32)
-        self.images_edges = torch.tensor(self.images_edges, dtype=torch.float32)
+        self.images = self.images
+        self.images_edges = self.images_edges
         self.table = torch.tensor(self.table, dtype=torch.float32)
         self.y_data = torch.tensor(self.y_data)
         
@@ -45,8 +45,8 @@ class CustomDataset(Dataset):
         # if torch.is_tensor(idx):
         #     idx = idx.tolist()
         
-        image = self.images[idx]
-        image_edges = self.images_edges[idx]
+        image = self.transforms(self.images[idx])
+        image_edges = self.transforms(self.images_edges[idx])
         table = self.table[idx]
         y_data = self.y_data[idx]
         
