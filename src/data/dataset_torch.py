@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+from pytorch_lightning.utilities.types import TRAIN_DATALOADERS
 
 from rich.progress import track
 
@@ -71,3 +72,25 @@ class CustomDataset(Dataset):
         table.drop(table.columns[0], axis=1, inplace=True)
         
         return np.array(images), np.array(images_edges), table.to_numpy(), np.array(y_data)
+    
+
+class CustomDataset_lightning(pl.LightningDataModule):
+    
+    def __init__(self, batch_size=8):
+        super().__init__()
+        self.path_to_images = os.path.join(get_project_path(), 'data', 'processed', 'images')
+        self.path_to_table = os.path.join(get_project_path(), 'data', 'processed', 'tables', 'table.csv')
+        self.batch_size = batch_size
+    
+    def setup(self, stage):
+        dataset = CustomDataset(self.path_to_table, self.path_to_images)
+        train_size = int(len(dataset)*0.8)
+        val_size = int(len(dataset) - train_size)
+        
+        self.train_set, self.val_set = random_split(dataset, (train_size, val_size))
+    
+    def train_dataloader(self):
+        return DataLoader(self.train_set, batch_size=self.batch_size)
+    
+    def val_dataloader(self):
+        return DataLoader(self.val_set, batch_size=self.batch_size)
